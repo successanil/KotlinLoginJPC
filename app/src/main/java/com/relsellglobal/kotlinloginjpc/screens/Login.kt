@@ -1,17 +1,24 @@
 package com.relsellglobal.kotlinloginjpc.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -21,6 +28,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavHostController
 import com.relsellglobal.kotlinloginjpc.ui.theme.Purple700
 
@@ -52,6 +61,7 @@ fun LoginPage(navController: NavHostController) {
 
         val username = remember { mutableStateOf(TextFieldValue()) }
         val password = remember { mutableStateOf(TextFieldValue()) }
+        var showPB = remember { mutableStateOf(false) }
 
         Text(text = "Login", style = TextStyle(fontSize = 40.sp, fontFamily = FontFamily.Cursive))
 
@@ -72,13 +82,16 @@ fun LoginPage(navController: NavHostController) {
         Spacer(modifier = Modifier.height(20.dp))
         Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
             Button(
-                onClick = { },
+                onClick = { showPB.value = true },
                 shape = RoundedCornerShape(50.dp),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp)
             ) {
                 Text(text = "Login")
+            }
+            if (showPB.value) {
+                CustomProgressDialog(showPB)
             }
         }
 
@@ -93,3 +106,33 @@ fun LoginPage(navController: NavHostController) {
         )
     }
 }
+@Composable
+private fun CustomLinearProgressBar(){
+    Column(modifier = Modifier.fillMaxWidth()) {
+        LinearProgressIndicator(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(15.dp),
+            backgroundColor = Color.LightGray,
+            color = Color.Red //progress color
+        )
+    }
+}
+
+@Composable
+private fun CustomProgressDialog(showDialog: MutableState<Boolean>) {
+    Dialog(
+        onDismissRequest = { showDialog.value = false },
+        DialogProperties(dismissOnBackPress = true, dismissOnClickOutside = true)
+    ) {
+        Box(
+            contentAlignment= Center,
+            modifier = Modifier
+                .size(100.dp)
+                .background(White, shape = RoundedCornerShape(8.dp))
+        ) {
+            CircularProgressIndicator()
+        }
+    }
+}
+
