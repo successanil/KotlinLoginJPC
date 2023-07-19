@@ -26,16 +26,14 @@ import com.relsellglobal.kotlinloginjpc.ui.theme.Purple700
 
 
 @Composable
-fun LoginPage(navController: NavHostController) {
+fun SignupPage(navController: NavHostController) {
     Box(modifier = Modifier.fillMaxSize()) {
         ClickableText(
-            text = AnnotatedString("Sign up here"),
+            text = AnnotatedString("Login here"),
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(20.dp),
-            onClick = {
-                navController.navigate("Signup")
-            },
+            onClick = { },
             style = TextStyle(
                 fontSize = 14.sp,
                 fontFamily = FontFamily.Default,
@@ -53,7 +51,7 @@ fun LoginPage(navController: NavHostController) {
         val username = remember { mutableStateOf(TextFieldValue()) }
         val password = remember { mutableStateOf(TextFieldValue()) }
 
-        Text(text = "Login", style = TextStyle(fontSize = 40.sp, fontFamily = FontFamily.Cursive))
+        Text(text = "Signup", style = TextStyle(fontSize = 40.sp, fontFamily = FontFamily.Cursive))
 
         Spacer(modifier = Modifier.height(20.dp))
         TextField(
